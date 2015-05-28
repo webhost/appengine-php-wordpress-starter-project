@@ -1,161 +1,157 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
+    <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Quick Start WordPress for Google App Engine by GoogleCloudPlatform</title>
+    <meta name="viewport" content="width=640">
 
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+    <link rel="stylesheet" href="stylesheets/core.css" media="screen">
+    <link rel="stylesheet" href="stylesheets/mobile.css" media="handheld, only screen and (max-device-width:640px)">
+    <link rel="stylesheet" href="stylesheets/github-light.css">
+
+    <script type="text/javascript" src="javascripts/modernizr.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script type="text/javascript" src="javascripts/headsmart.min.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function () {
+        $('#main_content').headsmart()
+      })
+    </script>
+    <title>Quick Start WordPress for Google App Engine by webhost</title>
   </head>
+
   <body>
-    <div class="wrapper">
+    <a id="forkme_banner" href="https://github.com/webhost/appengine-php-wordpress-starter-project">View on GitHub</a>
+    <div class="shell">
+
       <header>
-        <img src="https://cloud.google.com/images/appengine-icon-54x48.png"/>
-        <br/>
-        <h1>Quick Start WordPress for Google App Engine</h1>
-        <p>A guide for running WordPress on Google App Engine</p>
-
-        <p class="view"><a href="https://github.com/GoogleCloudPlatform/appengine-php-wordpress-starter-project">View the Project on GitHub <small>GoogleCloudPlatform/appengine-php-wordpress-starter-project</small></a></p>
-
-        <ul>
-          <li><a href="https://github.com/GoogleCloudPlatform/appengine-php-wordpress-starter-project/blob/master/appengine-php-wordpress-starter-project_windows.zip?raw=true">Download for <strong>Windows</strong></a></li>
-          <li><a href="https://github.com/GoogleCloudPlatform/appengine-php-wordpress-starter-project/blob/master/appengine-php-wordpress-starter-project_build_linux_mac.zip?raw=true">Download for <strong>Mac/Linux</strong></a></li>
-          <li><a href="https://github.com/GoogleCloudPlatform/appengine-php-wordpress-starter-project">View On <strong>GitHub</strong></a></li>
-        </ul>
+        <span class="ribbon-outer">
+          <span class="ribbon-inner">
+            <h1>Quick Start WordPress for Google App Engine</h1>
+            <h2>A guide for running WordPress on Google App Engine</h2>
+          </span>
+          <span class="left-tail"></span>
+          <span class="right-tail"></span>
+        </span>
       </header>
-      <section>
-      <p>
-        This simple tutorial will take you through setting up and running WordPress on Google App Engine. The version of WordPress supplied comes pre-configured with an <code>app.yaml</code> file and some useful open source plugins that optimise WordPress for App Engine.
-      </p>
+
+      <section id="downloads">
+        <span class="inner">
+          <a href="https://github.com/webhost/appengine-php-wordpress-starter-project/zipball/master" class="zip"><em>download</em> .ZIP</a><a href="https://github.com/webhost/appengine-php-wordpress-starter-project/tarball/master" class="tgz"><em>download</em> .TGZ</a>
+        </span>
+      </section>
+
+
+      <span class="banner-fix"></span>
+
+
+      <section id="main_content">
         <h2>
-<a name="prerequisites" class="anchor" href="#prerequisites"><span class="octicon octicon-link"></span></a>Prerequisites</h2>
+<a id="prerequisites" class="anchor" href="#prerequisites" aria-hidden="true"><span class="octicon octicon-link"></span></a>Prerequisites</h2>
 
 <ol>
-<li>Install the <a href="https://developers.google.com/appengine/docs/php/gettingstarted/installing">PHP SDK for Google App Engine</a>
+<li>Install the <a href="https://developers.google.com/appengine/downloads#Google_App_Engine_SDK_for_PHP">PHP SDK for Google App Engine</a>
 </li>
-<li>Install <a href="http://dev.mysql.com/downloads/">MySQL server</a>
+<li>Install <a href="http://dev.mysql.com/downloads/">MySQL</a>
 </li>
+<li>
+<a href="http://cloud.google.com/console">Sign up</a> for a Google Cloud Platform project, and
+set up a Cloud SQL instance, as described <a href="https://developers.google.com/cloud-sql/docs/instances">here</a>, and a 
+Cloud Storage bucket, as described <a href="https://developers.google.com/storage/docs/signup">here</a>. You'll want to name 
+your Cloud SQL instance "wordpress" to match the config files provided here.</li>
 </ol>
 
-<h2><a name="setup" class="anchor" href="#setup"><span class="octicon octicon-link"></span></a>Setup</h2>
+<h2>
+<a id="setup" class="anchor" href="#setup" aria-hidden="true"><span class="octicon octicon-link"></span></a>Setup</h2>
 
-<h3>Creating and configuring your project</h3>
-<p><a href="http://cloud.google.com/console">Sign up</a> for a Google Cloud Platform project, and
-set up a Cloud SQL instance, as described <a href="https://cloud.google.com/sql/docs/create-instance">here</a>. 
-To keep costs down, we suggest signing up for a D0 instance with package billing. 
-You'll want to name your Cloud SQL instance "wordpress" to match the config files provided here. For best performance,
-set it to follow your App Engine application underneath the <strong>Location</strong> setting. Lastly, when signing up,
-be sure to select <strong>Assign IP Address</strong>, and add <a href="https://www.google.com/#q=whats+my+ip">your IP
-address</a> to the list of <strong>Authorized IP Addresses</strong>, so you can connect to your Cloud SQL instance using 3rd-party
-tools, which we'll do later.</p>
-
-<h3>Editing your config files</h3>
-<p>Edit <code>app.yaml</code> and <code>wordpress/wp-config.php</code>, replacing any instance of 
-<code>your-project-id</code> to match the Project ID (not the name) you entered
+<p>Edit <code>wp-config.php</code> and <code>app.yaml</code>, replacing <code>YOUR_PROJECT_ID</code> to match the Project ID (not the name) you entered
 in the Cloud Console when you signed up for a Google Cloud Platform project.</p>
 
 <h2>
-<a name="running-wordpress-locally" class="anchor" href="#running-wordpress-locally">
-<span class="octicon octicon-link"></span></a>Running WordPress locally</h2>
+<a id="running-wordpress-locally" class="anchor" href="#running-wordpress-locally" aria-hidden="true"><span class="octicon octicon-link"></span></a>Running WordPress locally</h2>
 
-<p>First, edit <a href="https://github.com/GoogleCloudPlatform/appengine-php-wordpress-starter-project/edit/master/wp-config.php">wp-config.php</a>
-  so that the local environment password for root is not literally the string "password" -- unless that's what you used
-  when setting up MySQL locally.
-</p>
+<p>Using MySQL, run <code>databasesetup.sql</code> to set up your local database. For a default installation (no root password) 
+this would be: </p>
 
-<p>Using MySQL, run the following commands to set up your local database. 
-Note that you will be prompted for your password and enter the MySQL shell after the fist command:</p>
+<pre><code>/usr/local/mysql/bin/mysql -u root &lt; databasesetup.sql
+</code></pre>
 
-<pre><code>{PATH_TO_MYSQL_BIN}/mysql -u root -p
-create database wordpress_db;
-exit;
+<p>But really, all it's doing is running this line -- the WordPress installation script will do the heavy lifting when it comes to setting up your database. </p>
+
+<pre><code>CREATE DATABASE IF NOT EXISTS wordpress_db;
 </code></pre>
 
 <p>To run WordPress locally on Windows and OS X, you can use the 
 <a href="https://developers.google.com/appengine/downloads#Google_App_Engine_SDK_for_PHP">Launcher</a> 
-by going to <strong>File &gt; Add Existing Project</strong>, then clicking <strong>Run</strong>, or you 
-can run one of the commands below. </p>
+by going to <strong>File &gt; Add Existing Project</strong> or you can run one of the commands below. </p>
 
 <p>On Mac and Windows, the default is to use the PHP binaries bundled with the SDK:</p>
 
 <pre><code>$ dev_appserver.py path_to_this_directory
 </code></pre>
 
-<p>On Linux, you run the same command, only you provide an extra argument that points to the PHP CGI executable. For example:</p>
-<pre><code>$ dev_appserver.py --php_executable_path=~/php-5.4.25/installdir/bin/php-cgi path_to_this_directory</code></pre>
+<p>Now, with App Engine running locally, visit <code>http://localhost:8080/wp-admin/install.php</code> in your browser and run  the setup process, changing the port number from 8080 if you aren't using the default. 
+You should be able to log in, and confirm that your app is ready to deploy. </p>
 
-<p>Now, with App Engine running locally, visit <code>http://localhost:8080/wp-admin/install.php</code>
-in your browser and run the setup process, changing the port number from 8080 if you aren't using the default.
-(If you're using the Launcher, you can just select the project in the list and click <strong>Browse</strong>.)
-You should be able to log in and see the dashboard for your WordPress site.</p>
+<h3>
+<a id="deploy" class="anchor" href="#deploy" aria-hidden="true"><span class="octicon octicon-link"></span></a>Deploy!</h3>
 
-<h3 id="deploy">
-<a name="deploy" class="anchor" href="#deploy"><span class="octicon octicon-link"></span></a>Deploy!</h3>
+<p>If all looks good, you can upload your application using the Launcher or by using this command:</p>
 
-<p>If all looks good, you can upload your application using the Launcher (just select the project and click
-<strong>Deploy</strong>), or by using this command:</p>
-
-<pre><code>$ appcfg.py update APPLICATION_DIRECTORY</code></pre>
-
-<p>Just like you had to do with the local database, you'll need to set up the Cloud SQL instance. So, fire up the
-MySQL client again to run the below commands. This is the step that made it necessary to assign an IP address to
-your Cloud SQL instance (<code>INSTANCE_IP</code> below), and authorize
-<a href="https://www.google.com/#q=whats+my+ip">your IP address</a> during the <a href="#setup">Cloud SQL setup phase</a>.
-</p>
-
-<pre><code>{PATH_TO_MYSQL_BIN}/mysql --host=INSTANCE_IP --user=root --password
-create database wordpress_db;
-exit;
+<pre><code>$ appcfg.py update APPLICATION_DIRECTORY
 </code></pre>
 
-<p>You should see that it inserted 1 row of data creating the database -- and with that, you're done. If you ever need to
-run arbitrary SQL commands against your Cloud SQL instance in the future, now you know how!</p>
+<p>Just like you had to do with the local database, you'll need to set up the Cloud SQL instance. The SDK includes
+a tool for doing just that:</p>
+
+<pre><code>google_sql.py &lt;PROJECT_ID&gt;:wordpress
+</code></pre>
+
+<p>This launches a browser window that authorizes the <code>google_sql.py</code> tool to connect to your Cloud SQL instance. After clicking <strong>Accept</strong>, you can return to the command prompt, which has entered into the SQL command tool and is now connected to your instance. Next to <code>sql&gt;</code>, enter this command:</p>
+
+<pre><code>CREATE DATABASE IF NOT EXISTS wordpress_db;    
+</code></pre>
+
+<p>You should see that it inserted 1 row of data creating the database. You can now type <code>exit</code> -- we're done here.</p>
 
 <p>Now, just like you did when WordPress was running locally, you'll need to run the install script by visiting:</p>
 
-<pre><code>http://&lt;PROJECT_ID&gt;.appspot.com/wp-admin/install.php</code></pre>
+<pre><code>http://&lt;PROJECT_ID&gt;.appspot.com/wp-admin/install.php
+</code></pre>
 
-<p>Almost done!</p>
-
-<h2><a name="plugins" class="anchor" href="#plugins"><span class="octicon octicon-link"></span></a>Activating the plugins</h2>
-
-<p>Log into the App Engine Admin Console at <a href="http://appengine.google.com">http://appengine.google.com</a>, and click your freshly-deployed WordPress
-project. Click <strong>Application Settings</strong> on the left nav, scroll to the bottom, and click the
-<strong>Create</strong> button underneath <strong>Cloud Integration</strong>. This makes sure you have a 
-  Google Cloud Storage bucket active, enabling you to upload media from within WordPress.</p>
-
-<p>Next, log in to the WordPress dashboard for your site using the credentials you entered when installing WordPress, 
-and navigate to <strong>Plugins</strong>. Click the <strong>Activate</strong> links for both <strong>Google App Engine for
-WordPress</strong>, and <strong>Batcache Manager</strong>. Then, click <strong>Settings</strong> underneath 
-<strong>Google App Engine for WordPress</strong>. On this page, confirm your default bucket name shows up (<code>&lt;PROJECT_ID&gt;.appspot.com</code>), and -
-this last step is important - click <strong>Save</strong>.</p>
-
-<p><i>Now your site is ready to rock!</i></p>
-
-<h2><a name="youre-done" class="anchor" href="#youre-done"><span class="octicon octicon-link"></span></a>You're done!</h2>
+<h2>
+<a id="youre-done" class="anchor" href="#youre-done" aria-hidden="true"><span class="octicon octicon-link"></span></a>You're done!</h2>
 
 <p>Congratulations! You should now have a blog that loads rapidly, caches elegantly, 
 sends email properly, and can support adding images and other media to blog posts! Most importantly, 
 it will take advantage of Google's incredibly powerful infrastructure and scale gracefully to
 accomodate traffic that is hitting your blog.</p>
-
-<p><strong>Note</strong>: You'll want to keep that local copy of WordPress handy, because you'll need it to install
-custom themes and plugins. Because of the security sandbox, your live WordPress site can not write to the local files
--- they're static. This means the auto-installation of themes and plugins in the WordPress dashboard will only work 
-in the local WordPress that you run on your own machine. So, remember to do all your installing locally, then
-re-deploy your WordPress app.</p>
       </section>
+
       <footer>
-        <p>This project is maintained by <a href="https://github.com/GoogleCloudPlatform">GoogleCloudPlatform</a></p>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+        <span class="ribbon-outer">
+          <span class="ribbon-inner">
+            <p>this project by <a href="https://github.com/webhost">webhost</a> can be found on <a href="https://github.com/webhost/appengine-php-wordpress-starter-project">GitHub</a></p>
+          </span>
+          <span class="left-tail"></span>
+          <span class="right-tail"></span>
+        </span>
+        <p>Generated with <a href="https://pages.github.com">GitHub Pages</a> using Merlot</p>
+        <span class="octocat"></span>
       </footer>
+
     </div>
-    <script src="javascripts/scale.fix.js"></script>
-    
+
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-63003582-4");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
   </body>
 </html>
